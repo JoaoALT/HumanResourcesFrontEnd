@@ -12,13 +12,11 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
     historialLaboral: [],
   });
 
-  // Manejo de inputs para los campos normales
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Manejo para agregar elementos a arrays como habilidades, formación académica y historial laboral
   const handleAddArrayField = (e, field) => {
     e.preventDefault();
     const newValue = prompt(`Ingrese un valor para ${field}`);
@@ -30,7 +28,6 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
     }
   };
 
-  // Manejo para eliminar elementos de arrays
   const handleRemoveArrayField = (index, field) => {
     setFormData({
       ...formData,
@@ -38,10 +35,29 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
     });
   };
 
-  // Al enviar el formulario, se ejecuta la función para añadir el empleado
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Datos del nuevo empleado:', formData);
+
+    // Validación de campos obligatorios
+    if (!formData.nombre || !formData.apellido || !formData.email || !formData.telefono) {
+      alert("Por favor, complete todos los campos obligatorios.");
+      return;
+    }
+
+    // Validación de formato de email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(formData.email)) {
+      alert("Por favor, ingrese un email válido.");
+      return;
+    }
+
+    // Validación de formato de teléfono (10 dígitos)
+    const telefonoPattern = /^\d{10}$/;
+    if (!telefonoPattern.test(formData.telefono)) {
+      alert("Por favor, ingrese un teléfono válido (10 dígitos).");
+      return;
+    }
+
     addEmpleado(formData);
     closeModal();
   };
@@ -53,7 +69,9 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
             <div className="form-group">
               <label htmlFor="nombre">Nombre</label>
               <input
+                  type="text"
                   name="nombre"
+                  placeholder="Ingrese su nombre"
                   value={formData.nombre}
                   onChange={handleChange}
               />
@@ -61,7 +79,9 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
             <div className="form-group">
               <label htmlFor="apellido">Apellido</label>
               <input
+                  type="text"
                   name="apellido"
+                  placeholder="Ingrese su apellido"
                   value={formData.apellido}
                   onChange={handleChange}
               />
@@ -69,7 +89,9 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
+                  type="email"
                   name="email"
+                  placeholder="Ingrese su email"
                   value={formData.email}
                   onChange={handleChange}
               />
@@ -77,7 +99,9 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
             <div className="form-group">
               <label htmlFor="telefono">Teléfono</label>
               <input
+                  type="tel"
                   name="telefono"
+                  placeholder="Ingrese su teléfono"
                   value={formData.telefono}
                   onChange={handleChange}
               />
@@ -93,7 +117,7 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
                     </li>
                 ))}
               </ul>
-              <button onClick={(e) => handleAddArrayField(e, 'habilidades')}>Agregar habilidad</button>
+              <button type="button" onClick={(e) => handleAddArrayField(e, 'habilidades')}>Agregar habilidad</button>
             </div>
 
             {/* Campo de formación académica (array) */}
@@ -106,7 +130,7 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
                     </li>
                 ))}
               </ul>
-              <button onClick={(e) => handleAddArrayField(e, 'formacionAcademica')}>Agregar formación</button>
+              <button type="button" onClick={(e) => handleAddArrayField(e, 'formacionAcademica')}>Agregar formación</button>
             </div>
 
             {/* Campo de historial laboral (array) */}
@@ -119,7 +143,7 @@ const ModalAdd = ({ closeModal, addEmpleado }) => {
                     </li>
                 ))}
               </ul>
-              <button onClick={(e) => handleAddArrayField(e, 'historialLaboral')}>Agregar historial laboral</button>
+              <button type="button" onClick={(e) => handleAddArrayField(e, 'historialLaboral')}>Agregar historial laboral</button>
             </div>
 
             <button type="submit" className="submit">Añadir Empleado</button>

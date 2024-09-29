@@ -12,18 +12,18 @@ function App() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const getEmpleados = async () => {
-    try{
-    const response = await api.get("/empleados");
-    setEmpleados(response.data);
-    console.log(empleados);
-    }catch(err){
+    try {
+      const response = await api.get("/empleados");
+      setEmpleados(response.data);
+      console.log(empleados);
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
     getEmpleados();
-  },[]);
+  }, []);
 
   const deleteEmpleados = async (empleadoId) => {
     try {
@@ -61,15 +61,15 @@ function App() {
     }
   };
 
-
   return (
-    <div className='App'>
-      <TableComponent listaempleados={empleados} onDelete={deleteEmpleados} onEdit={editEmpleado}/>
-      <button onClick={() => setAddModalOpen(true)}>Añadir Empleado</button>
-      {modalOpen && <ModalActions empleado={empleadoSeleccionado} closeModal={() => setModalOpen(false)} saveEmpleado={updateEmpleado}/>}
-      {addModalOpen && (<ModalAdd closeModal={() => setAddModalOpen(false)} addEmpleado={addEmpleado}/>)}
-    </div>
+      <div className='App'>
+        <TableComponent listaempleados={empleados} onDelete={deleteEmpleados} onEdit={editEmpleado} />
+        <button onClick={() => setAddModalOpen(true)}>Añadir Empleado</button>
+        {modalOpen && <ModalActions empleado={empleadoSeleccionado} closeModal={() => setModalOpen(false)} saveEmpleado={updateEmpleado} />}
+        {addModalOpen && <ModalAdd closeModal={() => setAddModalOpen(false)} addEmpleado={addEmpleado} />}
+      </div>
   );
 }
 
 export default App;
+
