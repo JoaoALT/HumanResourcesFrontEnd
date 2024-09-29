@@ -55,6 +55,27 @@ const ModalActions = ({ empleado, closeModal, saveEmpleado }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Validaciones de campos obligatorios
+    if (!formData.nombre || !formData.apellido || !formData.email || !formData.telefono) {
+      alert("Por favor, complete todos los campos obligatorios.");
+      return;
+    }
+
+    // Validación de formato de email
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(formData.email)) {
+      alert("Por favor, ingrese un email válido.");
+      return;
+    }
+
+    // Validación de formato de teléfono (10 dígitos)
+    const telefonoPattern = /^\d{10}$/;
+    if (!telefonoPattern.test(formData.telefono)) {
+      alert("Por favor, ingrese un teléfono válido (10 dígitos).");
+      return;
+    }
+
     console.log('Datos del formulario:', formData);
     saveEmpleado(formData);
     closeModal();
@@ -70,6 +91,8 @@ const ModalActions = ({ empleado, closeModal, saveEmpleado }) => {
                   name="nombre"
                   value={formData.nombre}
                   onChange={handleChange}
+                  placeholder="Ingrese su nombre"
+                  required
               />
             </div>
             <div className="form-group">
@@ -78,22 +101,29 @@ const ModalActions = ({ empleado, closeModal, saveEmpleado }) => {
                   name="apellido"
                   value={formData.apellido}
                   onChange={handleChange}
+                  placeholder="Ingrese su apellido"
+                  required
               />
             </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
                   name="email"
+                  type="email"
                   value={formData.email}
                   onChange={handleChange}
+                  placeholder="Ingrese su email"
+                  required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="telefono">Telefono</label>
+              <label htmlFor="telefono">Teléfono</label>
               <input
                   name="telefono"
                   value={formData.telefono}
                   onChange={handleChange}
+                  placeholder="Ingrese su teléfono"
+                  required
               />
             </div>
 
@@ -107,7 +137,7 @@ const ModalActions = ({ empleado, closeModal, saveEmpleado }) => {
                     </li>
                 ))}
               </ul>
-              <button onClick={(e) => handleAddArrayField(e, 'habilidades')}>Agregar habilidad</button>
+              <button type="button" onClick={(e) => handleAddArrayField(e, 'habilidades')}>Agregar habilidad</button>
             </div>
 
             {/* Campo de formación académica (array) */}
@@ -120,7 +150,7 @@ const ModalActions = ({ empleado, closeModal, saveEmpleado }) => {
                     </li>
                 ))}
               </ul>
-              <button onClick={(e) => handleAddArrayField(e, 'formacionAcademica')}>Agregar formación</button>
+              <button type="button" onClick={(e) => handleAddArrayField(e, 'formacionAcademica')}>Agregar formación</button>
             </div>
 
             {/* Campo de historial laboral (array) */}
@@ -133,7 +163,7 @@ const ModalActions = ({ empleado, closeModal, saveEmpleado }) => {
                     </li>
                 ))}
               </ul>
-              <button onClick={(e) => handleAddArrayField(e, 'historialLaboral')}>Agregar historial laboral</button>
+              <button type="button" onClick={(e) => handleAddArrayField(e, 'historialLaboral')}>Agregar historial laboral</button>
             </div>
 
             <button type="submit" className="submit">Actualizar</button>
