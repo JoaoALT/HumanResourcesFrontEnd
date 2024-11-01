@@ -58,6 +58,7 @@ function App() {
       setAddModalOpen(false);
     } catch (err) {
       console.log(err);
+      console.log(empleadoActualizado);
     }
   };
 
