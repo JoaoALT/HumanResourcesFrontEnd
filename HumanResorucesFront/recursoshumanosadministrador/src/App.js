@@ -55,6 +55,7 @@ function App() {
     try {
       const response = await api.post("/empleados", nuevoEmpleado);
       setEmpleados([...empleados, response.data]);
+      await getEmpleados();
       setAddModalOpen(false);
     } catch (err) {
       console.log(err);
