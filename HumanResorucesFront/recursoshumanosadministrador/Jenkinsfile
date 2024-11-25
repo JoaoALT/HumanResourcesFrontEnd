@@ -26,14 +26,14 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    sh 'docker build -t mateogc/rrhhjmFront:latest ./HumanResorucesFront/recursoshumanosadministrador'
+                    sh 'docker build -t mateogc/rrhhjmfront:latest ./HumanResorucesFront/recursoshumanosadministrador'
                 }
             }
         }
         stage('Trivy Scan'){
             steps{
                 script{
-                    sh 'docker run --rm -v "/var/jenkins_home/workspace/CI Backend:/root/.cache/" aquasec/trivy:latest -q image --severity CRITICAL --light mateogc/rrhhjmFront:latest'
+                    sh 'docker run --rm -v "/var/jenkins_home/workspace/CI Backend:/root/.cache/" aquasec/trivy:latest -q image --severity CRITICAL --light mateogc/rrhhjmfront:latest'
                 }
             }
         }
@@ -42,7 +42,7 @@ pipeline {
             steps {
                 script {
                     sh "docker login -u mateogc -p dckr_pat_rGvUXWce73x2MlaSrHY30rwtFcc"
-                    sh 'docker push mateogc/rrhhjmFront:latest'
+                    sh 'docker push mateogc/rrhhjmfront:latest'
                 }
             }
         }
