@@ -17,6 +17,7 @@ pipeline {
                 dir('HumanResorucesFront/recursoshumanosadministrador') {
                     nodejs("node_default") {
                         sh 'npm install'
+                        sh 'ls -la dist'
                         sh 'npm run build'
                     }
                 }
