@@ -14,9 +14,11 @@ pipeline {
         }
         stage("Build"){
             steps{
-                nodejs("node_default") {
-                    sh 'npm install'
-                    sh 'npm run build'
+                dir('HumanResorucesFront/recursoshumanosadministrador') {
+                    nodejs("node_default") {
+                        sh 'npm install'
+                        sh 'npm run build'
+                    }
                 }
             }
         }
