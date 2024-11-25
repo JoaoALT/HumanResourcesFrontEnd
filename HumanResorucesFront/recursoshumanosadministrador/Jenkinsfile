@@ -30,19 +30,18 @@ pipeline {
                 }
             }
         }
-        stage('Trivy Scan'){
-            steps{
-                script{
-                    sh 'docker run --rm -v "/var/jenkins_home/workspace/CI Frontend:/root/.cache/" aquasec/trivy:latest -q image --light mateogc/rrhhjmfront:latest'
-                }
-            }
-        }
-
         stage('Push Docker Image') {
             steps {
                 script {
                     sh "docker login -u mateogc -p dckr_pat_rGvUXWce73x2MlaSrHY30rwtFcc"
                     sh 'docker push mateogc/rrhhjmfront:latest'
+                }
+            }
+        }
+        stage('Trivy Scan'){
+            steps{
+                script{
+                    sh 'docker run --rm -v "/var/jenkins_home/workspace/CI Frontend:/root/.cache/" aquasec/trivy:latest -q image --light mateogc/rrhhjmfront:latest'
                 }
             }
         }
