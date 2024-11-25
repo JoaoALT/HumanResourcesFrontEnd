@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    triggers {
+        pollSCM('* * * * *')  //
+    }
+    stages {
+        stage('Initialize') {
+            steps {
+                script {
+                    def dockerHome = tool 'Docker'
+                    env.PATH = "${dockerHome}/bin:${env.PATH}"
+                }
+            }
+        }
+        stage("Build"){
+            steps{
+                dir('HumanResorucesFront/recursoshumanosadministrador') {
+                    nodejs("node_default") {
+                        sh 'npm install'
+                        sh 'npm run build'
+                    }
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                script {
+                    sh 'docker build -t mateogc/rrhhjmfront:latest ./HumanResorucesFront/recursoshumanosadministrador'
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    sh "docker login -u mateogc -p dckr_pat_rGvUXWce73x2MlaSrHY30rwtFcc"
+                    sh 'docker push mateogc/rrhhjmfront:latest'
+                }
+            }
+        }
+        stage('Trivy Scan'){
+            steps{
+                script{
+                    sh 'docker run --rm -v "/var/jenkins_home/workspace/CI Frontend:/root/.cache/" aquasec/trivy:latest -q image --light mateogc/rrhhjmfront:latest'
+                }
+            }
+        }
+
+    }
+}
